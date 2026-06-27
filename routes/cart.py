@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from config.settings import Config
-import razorpay
 
 from models import db
 from models.cart_item import CartItem
@@ -12,7 +11,14 @@ cart_bp = Blueprint('cart_bp', __name__)
 
 RAZORPAY_KEY_ID = Config.RAZORPAY_KEY_ID
 RAZORPAY_KEY_SECRET = Config.RAZORPAY_KEY_SECRET
-razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
+
+# Lazy import of razorpay to avoid import errors if not installed
+try:
+    import razorpay
+    razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)) if RAZORPAY_KEY_ID else None
+except ImportError:
+    razorpay = None
+    razorpay_client = None
 
 
 @cart_bp.route('/api/cart/get', methods=['GET'])
@@ -210,6 +216,9 @@ def get_razorpay_key():
 @login_required
 def create_razorpay_order():
     try:
+        if not razorpay_client:
+            return jsonify({'error': 'Payment service not configured. Please contact administrator.'}), 503
+
         data = request.get_json(silent=True) or {}
         amount_rupees = data.get('amount', 0)
 
