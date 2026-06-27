@@ -1,0 +1,273 @@
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+/* ==================== HERO SECTION ==================== */
+.hero-section {
+    min-height: 100svh;
+    height: 100svh;
+    position: relative;
+    overflow: hidden;
+    background-image: url('https://i.ibb.co/N6NqpGwd/IMG-1355.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: scroll;
+    color: #ffffff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+/* Restrict Hero Height on Desktop/Laptop */
+@media (min-width: 1024px) {
+    .hero-section {
+        min-height: 85vh !important;
+        height: 85vh !important;
+        max-height: 800px;
+        background-position: center 20%; /* Pushes the image slightly down to keep faces/logos visible */
+    }
+}
+
+/* Mobile: tighter crop on portrait phones */
+@media (max-width: 480px) {
+    .hero-section {
+        background-position: 40% top;
+        min-height: 100svh;
+        height: 100svh;
+    }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .hero-section {
+        background-position: center 10%;
+    }
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 1;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+    z-index: 1;
+}
+
+.hero-section > * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section > div {
+    width: 100%;
+    padding: 0 2.5rem 2.75rem;
+}
+
+@media (min-width: 768px) {
+    .hero-section > div {
+        padding: 0 3.5rem 3.5rem;
+    }
+}
+
+.hero-title {
+    font-family: 'Syne', 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4.5rem, 13vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    color: #ffffff !important;
+    text-shadow: none;
+    text-transform: uppercase;
+    word-wrap: break-word;
+}
+
+.hero-subtitle {
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6) !important;
+    font-weight: 500;
+}
+
+.hero-corner-label {
+    position: absolute;
+    top: 5.5rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .hero-corner-label { font-size: 0.5rem; letter-spacing: 0.2em; top: 4.75rem; }
+}
+
+.hero-corner-label.left { left: 2.5rem; }
+
+/* ==================== PAGE TRANSITIONS ==================== */
+.page {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+.page.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#page-home {
+    padding-top: 0 !important;
+    min-height: 100vh;
+}
+
+/* ==================== NAVIGATION ==================== */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.nav-logo, .nav-link, .nav-icon {
+    color: #fff;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-link:hover { opacity: 0.6; }
+
+.nav-container.on-hero {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+.nav-container.on-hero .nav-logo,
+.nav-container.on-hero .nav-link,
+.nav-container.on-hero .nav-icon { color: #fff !important; }
+
+.nav-container.on-hero svg { stroke: #fff !important; }
+
+.nav-container.scrolled {
+    background: rgba(0,0,0,0.93) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+.nav-container.scrolled .nav-logo,
+.nav-container.scrolled .nav-link,
+.nav-container.scrolled .nav-icon { color: #fff !important; }
+
+.nav-container.scrolled svg { stroke: #fff !important; color: #fff !important; }
+
+.nav-container .menu-toggle,
+.nav-container.on-hero .menu-toggle,
+.nav-container.scrolled .menu-toggle { color: inherit !important; }
+
+/* Mobile menu close button */
+.mobile-menu .close-menu-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+}
+
+/* Mobile menu link adjustments */
+.mobile-menu a {
+    font-family: 'Barlow Condensed', 'Bebas Neue', cursive;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.65rem 0;
+    transition: opacity 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    display: block;
+}
+
+.mobile-menu a:hover { opacity: 0.5; }
+
+/* ==================== FOOTER ==================== */
+footer {
+    background: var(--primary);
+    color: var(--secondary);
+    padding: 4rem 0 2rem;
+}
+
+footer a {
+    color: var(--gray-300);
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--secondary);
+}
+
+/* ==================== PAGE SECTIONS & GRID LAYOUTS ==================== */
+.page section {
+    padding: var(--space-12) 0;
+}
+
+.page section:nth-child(even) {
+    background: var(--color-bg-secondary);
+}
+
+@media (min-width: 768px) {
+    .page section {
+        padding: var(--space-16) 0;
+    }
+}
+
+/* Centered content sections */
+.page section > .max-w-4xl,
+.page section > .max-w-7xl {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Spacing utilities for sections */
+.pt-6 { padding-top: var(--space-6); }
+.pb-6 { padding-bottom: var(--space-6); }
+.pt-8 { padding-top: var(--space-8); }
+.pb-8 { padding-bottom: var(--space-8); }
+.pt-12 { padding-top: var(--space-12); }
+.pb-12 { padding-bottom: var(--space-12); }
+.pt-16 { padding-top: var(--space-16); }
+.pb-16 { padding-bottom: var(--space-16); }
+.mt-6 { margin-top: var(--space-6); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
+.mb-12 { margin-bottom: var(--space-12); }
+.mt-16 { margin-top: var(--space-16); }
+.mb-16 { margin-bottom: var(--space-16); }
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
