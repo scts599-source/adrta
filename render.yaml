@@ -18,14 +18,6 @@ services:
         value: admin
       - key: TEAM_PORTAL_PASSWORD
         generateValue: true
-      - key: RAZORPAY_KEY_ID
-        value: rzp_test_xxxxxxxxxxxx
-      - key: RAZORPAY_KEY_SECRET
-        value: xxxxxxxxxxxxxxxxxxxx
-      - key: BREVO_API_KEY
-        value: xkeysib-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      - key: FAST2SMS_API_KEY
-        value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       - key: CORS_ORIGINS
         value: https://adrta.onrender.com
     autoDeploy: true

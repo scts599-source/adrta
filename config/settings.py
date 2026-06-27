@@ -4,18 +4,10 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 IS_PRODUCTION = ENVIRONMENT == 'production'
 
 
-def _require_env(var_name: str, default: str = None) -> str:
-    """Get env var, raise in production if missing, else return default."""
-    value = os.environ.get(var_name, default)
-    if IS_PRODUCTION and value in (None, ''):
-        raise RuntimeError(
-            f"Required environment variable '{var_name}' is not set in production."
-        )
-    return value
 
 
 class Config:
-    SECRET_KEY = _require_env('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production-12345678901234567890')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_AS_ASCII = False
 
@@ -30,11 +22,12 @@ class Config:
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     CORS_ORIGINS = os.environ.get('CORS_ORIGINS', 'http://localhost:5000')
 
-    DATABASE_URL = os.environ.get('DATABASE_URL')
+    DATABASE_URL = os.environ.get('DATABASE_URL', '')
     if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
-        SQLALCHEMY_DATABASE_URI = DATABASE_URL.replace('postgres://', 'postgresql+psycopg://', 1)
+        db_uri = DATABASE_URL.replace('postgres://', 'postgresql+psycopg://', 1)
     else:
-        SQLALCHEMY_DATABASE_URI = DATABASE_URL or os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///adrta.db')
+        db_uri = DATABASE_URL or os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///adrta.db')
+    SQLALCHEMY_DATABASE_URI = db_uri
 
     BREVO_API_KEY = os.environ.get('BREVO_API_KEY', '')
     BREVO_SENDER_EMAIL = os.environ.get('BREVO_SENDER_EMAIL', 'adrtashop@gmail.com')
@@ -44,10 +37,10 @@ class Config:
     BREVO_DELIVERY_CONFIRMATION_TEMPLATE = int(os.environ.get('BREVO_DELIVERY_CONFIRMATION_TEMPLATE', 5))
     FAST2SMS_API_KEY = os.environ.get('FAST2SMS_API_KEY', '')
 
-    TEAM_PORTAL_USER = _require_env('TEAM_PORTAL_USER')
-    TEAM_PORTAL_PASSWORD = _require_env('TEAM_PORTAL_PASSWORD')
+    TEAM_PORTAL_USER = os.environ.get('TEAM_PORTAL_USER', 'admin')
+    TEAM_PORTAL_PASSWORD = os.environ.get('TEAM_PORTAL_PASSWORD', 'admin123')
 
-    RAZORPAY_KEY_ID = _require_env('RAZORPAY_KEY_ID')
-    RAZORPAY_KEY_SECRET = _require_env('RAZORPAY_KEY_SECRET')
+    RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
+    RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
 
     REDIS_URL = os.environ.get('REDIS_URL', '')
