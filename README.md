@@ -95,43 +95,79 @@ http://localhost:5000
 
 ### Deploy to Render.com
 
+**⚠️ IMPORTANT: You MUST set all required environment variables before deploying, or the app will crash on startup.**
+
 1. **Push to GitHub** (already done):
    - Repository: https://github.com/scts599-source/adrta
 
 2. **Create a Web Service on Render:**
-   - Go to https://render.com
+   - Go to https://render.com and sign up/login
    - Click "New" → "Web Service"
    - Connect your GitHub repository: `scts599-source/adrta`
    - Select the branch: `master`
 
 3. **Configure Build & Start Settings:**
    - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `python app.py` or `gunicorn wsgi:app`
+   - **Start Command:** `gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120`
    - **Environment:** Python 3
+   - **Plan:** Free or paid (free tier available)
 
-4. **Add Environment Variables:**
-   In the Render dashboard, go to "Environment" tab and add:
+4. **Add Environment Variables (REQUIRED):**
+   In the Render dashboard, before clicking "Create Web Service", expand the "Advanced" section and add these environment variables:
    
-   Required:
-   - `SECRET_KEY` - Generate a random secret key
-   - `TEAM_PORTAL_USER` - Admin username for team portal
-   - `TEAM_PORTAL_PASSWORD` - Admin password for team portal
-   - `RAZORPAY_KEY_ID` - Your Razorpay key ID
-   - `RAZORPAY_KEY_SECRET` - Your Razorpay key secret
-   - `BREVO_API_KEY` - Your Brevo/Sendinblue API key
-   - `FAST2SMS_API_KEY` - Your Fast2SMS API key
+   **Critical (App will crash without these):**
+   - `SECRET_KEY` - Generate a random 32+ character string (e.g., use: `openssl rand -hex 32`)
+   - `TEAM_PORTAL_USER` - Choose a username for team portal (e.g., `admin`)
+   - `TEAM_PORTAL_PASSWORD` - Choose a strong password for team portal
+   - `RAZORPAY_KEY_ID` - Get from https://dashboard.razorpay.com/app/keys
+   - `RAZORPAY_KEY_SECRET` - Get from https://dashboard.razorpay.com/app/keys
+   - `BREVO_API_KEY` - Get from https://app.brevo.com/settings/keys/api
+   - `FAST2SMS_API_KEY` - Get from https://www.fast2sms.com/
    
-   Optional:
-   - `DATABASE_URL` - Render will provide this automatically for PostgreSQL
-   - `CORS_ORIGINS` - Your domain(s), comma-separated
-   - `REDIS_URL` - For rate limiting (optional)
+   **Optional but Recommended:**
+   - `DATABASE_URL` - Leave empty, Render will provide PostgreSQL automatically
+   - `CORS_ORIGINS` - Your domain (e.g., `https://your-app.onrender.com`)
    - `ENVIRONMENT` - Set to `production`
    - `FLASK_DEBUG` - Set to `0`
+   - `REDIS_URL` - Leave empty (optional, for rate limiting)
 
 5. **Deploy:**
    - Click "Create Web Service"
-   - Wait for the build and deployment to complete
+   - Wait 2-3 minutes for build and deployment
    - Your app will be available at `https://your-app-name.onrender.com`
+
+**If deployment fails:**
+- Check the "Logs" tab in Render dashboard for error messages
+- Ensure all required environment variables are set
+- Make sure `SECRET_KEY` is at least 32 characters long
+- Verify Razorpay and Brevo API keys are correct
+
+### Quick Environment Variables Setup
+
+Copy these values and replace with your actual credentials:
+
+```env
+# Generate with: openssl rand -hex 32
+SECRET_KEY=your-generated-secret-key-here
+
+TEAM_PORTAL_USER=admin
+TEAM_PORTAL_PASSWORD=YourSecurePassword123!
+
+# Get from Razorpay Dashboard
+RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
+RAZORPAY_KEY_SECRET=xxxxxxxxxxxxxxxxxxxx
+
+# Get from Brevo (Sendinblue)
+BREVO_API_KEY=xkeysib-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Get from Fast2SMS
+FAST2SMS_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Optional
+ENVIRONMENT=production
+FLASK_DEBUG=0
+CORS_ORIGINS=https://your-app.onrender.com
+```
 
 ### Deploy to Other Platforms
 
