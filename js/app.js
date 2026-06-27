@@ -1,22 +1,38 @@
 // ==================== APP INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 ADRTA App Initializing...');
-    await checkMaintenanceStatus();
-    await loadCurrentUser();
-    await loadCart();
-    updateCartBadge();
-    setupImagePreview();
-    setupVariantImagePreview();
-
-    // Load new arrivals immediately on page load
-    await loadNewArrivals();
-
-    // Hide page loader
+    
+    // Hide loader immediately with a small delay for smooth transition
     const loader = document.getElementById('pageLoader');
-    if (loader) {
-        setTimeout(() => {
+    const loaderTimeout = setTimeout(() => {
+        if (loader) {
             loader.classList.add('hidden');
-        }, 500);
+        }
+    }, 300);
+    
+    try {
+        // Initialize core features
+        await checkMaintenanceStatus();
+        await loadCurrentUser();
+        await loadCart();
+        updateCartBadge();
+        setupImagePreview();
+        setupVariantImagePreview();
+
+        // Load new arrivals immediately on page load
+        await loadNewArrivals();
+    } catch (error) {
+        console.error('❌ Initialization error:', error);
+        // Ensure loader is hidden even on error
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    } finally {
+        // Always hide loader after initialization
+        clearTimeout(loaderTimeout);
+        if (loader) {
+            loader.classList.add('hidden');
+        }
     }
 
     // Show the home page

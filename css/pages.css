@@ -2,11 +2,51 @@
    PAGE-SPECIFIC STYLES
    ============================================ */
 
+/* Page Loader */
+.page-loader {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.3em;
+    color: #000000;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.5; 
+        transform: scale(0.98);
+    }
+}
+
 /* Global Page Overrides - Strip Tailwind rounded cards from inner pages */
 .page .rounded-lg { border-radius: 0 !important; }
-.page .shadow-sm { box-shadow: none !important; border: 1px solid var(--gray-200) !important; }
-.page .bg-gray-50 { background: var(--gray-50) !important; }
-.page .bg-gray-100 { background: var(--gray-100) !important; }
+.page .shadow-sm { box-shadow: none !important; border: 1px solid var(--color-gray-200) !important; }
+.page .bg-gray-50 { background: var(--color-gray-50) !important; }
+.page .bg-gray-100 { background: var(--color-gray-100) !important; }
 .page .bg-white { background: #fff !important; }
 .page .text-gray-600 { color: #555 !important; }
 .page .text-gray-500 { color: #888 !important; }

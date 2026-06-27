@@ -43,18 +43,19 @@ function getPlaceholderImage() {
 function renderProductCard(product) {
     let priceHtml = '';
     const originalPrice = product.original_price || product.mrp;
+    const productPrice = parseFloat(product.price) || 0;
 
-    if (originalPrice && originalPrice > product.price) {
+    if (originalPrice && originalPrice > productPrice) {
         priceHtml = `
             <span class="text-gray-400 line-through text-xs mr-2">₹${originalPrice}</span>
-            <span class="text-gray-900 font-semibold tracking-wide">₹${product.price}</span>
+            <span class="text-gray-900 font-semibold tracking-wide">₹${productPrice}</span>
         `;
     } else {
-        priceHtml = `<span class="text-gray-900 font-semibold tracking-wide">₹${product.price}</span>`;
+        priceHtml = `<span class="text-gray-900 font-semibold tracking-wide">₹${productPrice}</span>`;
     }
 
     let badgeHtml = '';
-    if (originalPrice && originalPrice > product.price) {
+    if (originalPrice && originalPrice > productPrice) {
         badgeHtml = `<div class="absolute top-2 left-2 bg-black border border-[#39ff14] text-[#39ff14] text-[0.55rem] font-bold tracking-[0.2em] px-2 py-1 uppercase z-10">[ CLASSIFIED_PRICE ]</div>`;
     } else if (product.is_new) {
         badgeHtml = `<div class="absolute top-2 left-2 bg-black border border-white/40 text-white text-[0.55rem] font-bold tracking-[0.2em] px-2 py-1 uppercase z-10">[ ARCHIVE_01 ]</div>`;
@@ -70,20 +71,23 @@ function renderProductCard(product) {
         }
     }
 
+    const productName = product.name || 'Unnamed Product';
+    const productCategory = (product.category || 'STREETWEAR').toUpperCase();
+
     return `
         <div class="group flex flex-col cursor-pointer mb-6 snap-center min-w-[75%] sm:min-w-[45%] md:min-w-0" onclick="navigateTo('product', {id: ${product.id}})">
             <div class="relative aspect-[4/5] bg-[#0f0f0f] overflow-hidden mb-3 border border-[#2a2a2a]">
                 ${badgeHtml}
                 <img src="${imageUrl}" 
-                     alt="${product.name}" 
+                     alt="${productName}" 
                      loading="lazy"
                      class="archive-product-img w-full h-full object-contain transition-all duration-[600ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
                      onerror="this.src='${getPlaceholderImage()}'>
             </div>
             <div class="flex flex-col px-1">
-                <span class="text-[0.6rem] text-gray-500 uppercase tracking-widest mb-1">// ${(product.category || 'STREETWEAR').toUpperCase()}</span>
-                <h3 class="text-[0.85rem] font-medium text-gray-900 leading-snug truncate" title="${product.name}">
-                    ${product.name}
+                <span class="text-[0.6rem] text-gray-500 uppercase tracking-widest mb-1">// ${productCategory}</span>
+                <h3 class="text-[0.85rem] font-medium text-gray-900 leading-snug truncate" title="${productName}">
+                    ${productName}
                 </h3>
                 <div class="mt-1.5 flex items-center">
                     ${priceHtml}

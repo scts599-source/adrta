@@ -103,22 +103,27 @@ function parseRoute() {
 
     console.log('📍 Parsing route:', path, 'hash:', hash);
 
-    if (hash) {
+    // Handle hash-based routing
+    if (hash && hash.length > 0) {
         const hashPage = hash.split('/')[0];
         if (hashPage) {
             return { page: hashPage, params: {} };
         }
     }
 
+    // Handle root path
     if (path === '/' || path === '') {
         return { page: 'home', params: {} };
     }
 
     const cleanPath = path.substring(1);
 
+    // Handle product pages with IDs
     if (cleanPath.startsWith('product/')) {
         const productId = cleanPath.split('/')[1];
-        return { page: 'product', params: { id: productId } };
+        if (productId && productId.trim() !== '') {
+            return { page: 'product', params: { id: productId } };
+        }
     }
 
     const routeMap = {
@@ -138,6 +143,8 @@ function parseRoute() {
         return { page: routeMap[cleanPath], params: {} };
     }
 
+    // Default to home for unknown routes
+    console.log('⚠️ Unknown route, defaulting to home:', cleanPath);
     return { page: 'home', params: {} };
 }
 
