@@ -79,15 +79,19 @@ def create_app(config_object=None):
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def serve_frontend(path):
-        # Don't interfere with API routes or static files
-        if path.startswith('api/') or path.startswith('static/'):
+        # Don't interfere with API routes
+        if path.startswith('api/'):
             return render_template('index.html'), 404
         
         # Check if the path corresponds to a static file (css, js, images, etc.)
         static_extensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot']
         if any(path.endswith(ext) for ext in static_extensions):
-            # Let Flask's static file handling take over
-            return app.send_static_file(path)
+            # Check if file exists in static folder
+            static_path = os.path.join(app.static_folder, path)
+            if os.path.exists(static_path):
+                return app.send_static_file(path)
+            # If file doesn't exist, still return 404 instead of index.html
+            return render_template('index.html'), 404
         
         # For all other routes, serve the SPA
         return render_template('index.html')
