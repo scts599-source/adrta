@@ -16,7 +16,7 @@ def create_app(config_object=None):
     from models import User
     from routes import register_blueprints
 
-    app = Flask(__name__, template_folder='.')
+    app = Flask(__name__, template_folder='.', static_folder='.')
 
     # Load config
     cfg = config_object or Config
