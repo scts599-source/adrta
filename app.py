@@ -75,22 +75,29 @@ def create_app(config_object=None):
     def handle_429(error):
         return jsonify({'error': 'Too many requests. Please slow down.'}), 429
 
+    # ── Static file routes ──────────────────────────────────────
+    @app.route('/css/<path:filename>')
+    def serve_css(filename):
+        return app.send_static_file(f'css/{filename}')
+    
+    @app.route('/js/<path:filename>')
+    def serve_js(filename):
+        return app.send_static_file(f'js/{filename}')
+    
+    @app.route('/images/<path:filename>')
+    def serve_images(filename):
+        return app.send_static_file(f'images/{filename}')
+    
+    @app.route('/favicon.ico')
+    def serve_favicon():
+        return app.send_static_file('favicon.ico')
+
     # ── SPA catch-all ──────────────────────────────────────────
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def serve_frontend(path):
         # Don't interfere with API routes
         if path.startswith('api/'):
-            return render_template('index.html'), 404
-        
-        # Check if the path corresponds to a static file (css, js, images, etc.)
-        static_extensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot']
-        if any(path.endswith(ext) for ext in static_extensions):
-            # Check if file exists in static folder
-            static_path = os.path.join(app.static_folder, path)
-            if os.path.exists(static_path):
-                return app.send_static_file(path)
-            # If file doesn't exist, still return 404 instead of index.html
             return render_template('index.html'), 404
         
         # For all other routes, serve the SPA
