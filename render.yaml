@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: adrta
+    runtime: python3
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: TEAM_PORTAL_USER
+        value: admin
+      - key: TEAM_PORTAL_PASSWORD
+        generateValue: true
+      - key: RAZORPAY_KEY_ID
+        value: rzp_test_xxxxxxxxxxxx
+      - key: RAZORPAY_KEY_SECRET
+        value: xxxxxxxxxxxxxxxxxxxx
+      - key: BREVO_API_KEY
+        value: xkeysib-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - key: FAST2SMS_API_KEY
+        value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - key: CORS_ORIGINS
+        value: https://adrta.onrender.com
+    autoDeploy: true
