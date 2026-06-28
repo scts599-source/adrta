@@ -228,8 +228,7 @@ function removeVariantImagePreview(index) {
 
 // ==================== IMAGE COMPRESSION HELPER ====================
 async function compressImageFile(file, maxSizeKB = 800) {
-    return new Promise((resolve, reject
-
+    return new Promise((resolve, reject) => {
         const reader = new FileReader();
         
         reader.onload = function(e) {
