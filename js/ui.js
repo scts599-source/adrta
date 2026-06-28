@@ -82,9 +82,8 @@ async function viewProduct(productId) {
 
                             // ✅ CRITICAL FIX: Properly escape JSON for onclick
                             const imagesJson = JSON.stringify(variant.images || [])
-                                .replace(/"/g, '"')
-                                .replace(/'/g, ''');
-
+                                                            .replace(/"/g, '&quot;')
+                                                            .replace(/'/g, '&#39;');
                             return `
                                 <button
                                     type="button"
@@ -1105,7 +1104,7 @@ function updateCartSummary() {
         if (checkoutBtn) {
             checkoutBtn.disabled = true;
             checkoutBtn.style.opacity = '0.5';
-            cursor: not-allowed;
+            checkoutBtn.style.cursor = 'not-allowed';
         }
 
         console.log('✅ Cart summary reset to zero');
@@ -1144,7 +1143,7 @@ function updateCartSummary() {
         } else {
             checkoutBtn.disabled = true;
             checkoutBtn.style.opacity = '0.5';
-            cursor: not-allowed;
+            checkoutBtn.style.cursor = 'not-allowed';
         }
     }
 
