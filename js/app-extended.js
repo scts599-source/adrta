@@ -23,7 +23,7 @@ function applyColorPreset(...args) {
         
 }
 
-function applyCoupon(...args) {
+async function applyCoupon(...args) {
 
 
             const code = document.getElementById('couponInput').value.trim().toUpperCase();
@@ -318,7 +318,7 @@ function copyShareableLink(...args) {
         
 }
 
-function deleteAdminCoupon(...args) {
+async function deleteAdminCoupon(...args) {
 
             if (!confirm('Delete this coupon? This action cannot be undone.')) return;
 
@@ -341,7 +341,7 @@ function deleteAdminCoupon(...args) {
         
 }
 
-function deleteProduct(...args) {
+async function deleteProduct(...args) {
 
             if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
                 return;
@@ -366,7 +366,7 @@ function deleteProduct(...args) {
         
 }
 
-function deleteVariant(...args) {
+async function deleteVariant(...args) {
 
             if (!confirm('Delete this variant?')) return;
 
@@ -388,7 +388,7 @@ function deleteVariant(...args) {
         
 }
 
-function editAdminOrder(...args) {
+async function editAdminOrder(...args) {
 
             const newStatus = prompt('Enter new order status:\n- pending confirmation\n- confirmed\n- packed\n- shipped\n- delivered\n- cancelled');
 
@@ -420,7 +420,7 @@ function editAdminOrder(...args) {
         
 }
 
-function editProduct(...args) {
+async function editProduct(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/products/${productId}`);
@@ -597,7 +597,7 @@ function fallbackCopyLink(text) {
         
 }
 
-function filterByCategory(...args) {
+async function filterByCategory(...args) {
 
             console.log('ðŸ” Filtering by category:', category);
 
@@ -910,7 +910,7 @@ function loadAccountProfile(...args) {
         
 }
 
-function loadAdminCoupons(...args) {
+async function loadAdminCoupons(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/admin/coupons`);
@@ -977,7 +977,7 @@ function loadAdminCoupons(...args) {
         
 }
 
-function loadAdminDashboard(...args) {
+async function loadAdminDashboard(...args) {
 
             if (!currentUser || !currentUser.is_admin) {
                 navigateTo('home');
@@ -1000,7 +1000,7 @@ function loadAdminDashboard(...args) {
         
 }
 
-function loadAdminOrders(...args) {
+async function loadAdminOrders(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/admin/orders`);
@@ -1066,7 +1066,7 @@ function loadAdminOrders(...args) {
         
 }
 
-function loadAdminProducts(...args) {
+async function loadAdminProducts(...args) {
 
             try {
                 console.log('ðŸ“¦ Loading admin products...');
@@ -1212,7 +1212,7 @@ function loadAdminProducts(...args) {
         
 }
 
-function loadAdminUsers(...args) {
+async function loadAdminUsers(...args) {
 
             const tbody = document.getElementById('usersTableBody');
             if (!tbody) return;
@@ -1250,7 +1250,7 @@ function loadAdminUsers(...args) {
         
 }
 
-function loadAndShowProduct(...args) {
+async function loadAndShowProduct(...args) {
 
             try {
                 console.log('ðŸ“¦ Loading product from URL:', productId);
@@ -1268,7 +1268,7 @@ function loadAndShowProduct(...args) {
         
 }
 
-function loadMaintenanceSettings(...args) {
+async function loadMaintenanceSettings(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/admin/maintenance`);
@@ -1372,7 +1372,7 @@ function loadPageContent(...args) {
         
 }
 
-function loadProductVariants(...args) {
+async function loadProductVariants(...args) {
 
             currentProductIdForVariants = productId;
             const variantMgmt = document.getElementById('variantManagement');
@@ -1414,7 +1414,7 @@ function loadProductVariants(...args) {
         
 }
 
-function loadUserOrders(...args) {
+async function loadUserOrders(...args) {
 
             if (!currentUser) {
                 navigateTo('login');
@@ -1685,7 +1685,7 @@ function parseRoute(...args) {
         
 }
 
-function performSearch(...args) {
+async function performSearch(...args) {
 
             const searchInput = document.getElementById('searchInput');
             const searchQuery = searchInput.value.trim();
@@ -1774,7 +1774,7 @@ function resetModifierSection(...args) {
         
 }
 
-function saveCoupon(...args) {
+async function saveCoupon(...args) {
 
             const codeInput = document.getElementById('couponCodeInput');
             const typeInput = document.getElementById('couponType');
@@ -1831,7 +1831,7 @@ function saveCoupon(...args) {
         
 }
 
-function saveMaintenanceSettings(...args) {
+async function saveMaintenanceSettings(...args) {
 
             const settings = {
                 enabled: document.getElementById('maintenanceToggle').checked,
@@ -1879,7 +1879,7 @@ function saveModifierSection(...args) {
         
 }
 
-function saveProduct(...args) {
+async function saveProduct(...args) {
 
             // 1. Gather all basic fields
             const name = document.getElementById('productName').value.trim();
@@ -2013,7 +2013,7 @@ function saveProfile(...args) {
         
 }
 
-function saveVariant(...args) {
+ async function saveVariant(...args) {
 
             if (!currentProductIdForVariants) {
                 alert('Please save the product first before adding variants');
@@ -2579,7 +2579,7 @@ function updateMarqueeText(...args) {
         
 }
 
-function updateOrderStatus(...args) {
+async function updateOrderStatus(...args) {
 
             const orderStatus = document.getElementById('updateOrderStatus').value;
             const paymentStatus = document.getElementById('updatePaymentStatus').value;
@@ -2639,7 +2639,7 @@ async function updateProfile(...args) {
         
 }
 
-function viewAdminOrderDetail(...args) {
+async function viewAdminOrderDetail(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/admin/orders/${orderId}`);
@@ -2764,7 +2764,7 @@ function viewAdminOrderDetail(...args) {
         
 }
 
-function viewOrderDetail(...args) {
+async function viewOrderDetail(...args) {
 
             try {
                 const res = await fetch(`${API_BASE}/orders/${orderId}`);
