@@ -1,6 +1,6 @@
 // ==================== ADDITIONAL APP FUNCTIONS ====================
 
-function addMarqueeItem(...args) {
+function addMarqueeItem() {
 
             const list = document.getElementById('modMarqueeItems');
             const div = document.createElement('div');
@@ -12,7 +12,7 @@ function addMarqueeItem(...args) {
         
 }
 
-function applyColorPreset(...args) {
+function applyColorPreset(primary, secondary, accent) {
 
             document.getElementById('modColorPrimary').value = primary;
             document.getElementById('modColorSecondary').value = secondary;
@@ -66,7 +66,7 @@ async function applyCoupon(...args) {
         
 }
 
-function applyCustomFont(...args) {
+function applyCustomFont() {
 
             const font = document.getElementById('modCustomFont')?.value;
             const role = document.getElementById('modCustomFontRole')?.value;
@@ -301,7 +301,7 @@ function collectModifierSettings(...args) {
         
 }
 
-function copyShareableLink(...args) {
+function copyShareableLink(page, params = {}) {
 
             const link = getShareableLink(page, params);
 
@@ -318,7 +318,7 @@ function copyShareableLink(...args) {
         
 }
 
-async function deleteAdminCoupon(...args) {
+async function deleteAdminCoupon(couponId) {
 
             if (!confirm('Delete this coupon? This action cannot be undone.')) return;
 
@@ -341,7 +341,8 @@ async function deleteAdminCoupon(...args) {
         
 }
 
-async function deleteProduct(...args) {
+async function deleteProduct(productId) {
+
 
             if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
                 return;
@@ -366,7 +367,7 @@ async function deleteProduct(...args) {
         
 }
 
-async function deleteVariant(...args) {
+async function deleteVariant(variantId) {
 
             if (!confirm('Delete this variant?')) return;
 
@@ -420,7 +421,7 @@ async function editAdminOrder(...args) {
         
 }
 
-async function editProduct(...args) {
+async function editProduct(productId) {
 
             try {
                 const res = await fetch(`${API_BASE}/products/${productId}`);
@@ -597,7 +598,7 @@ function fallbackCopyLink(text) {
         
 }
 
-async function filterByCategory(...args) {
+async function filterByCategory(category) {
 
             console.log('ðŸ” Filtering by category:', category);
 
@@ -612,7 +613,7 @@ async function filterByCategory(...args) {
         
 }
 
-function getProductRating(...args) {
+function getProductRating(productName) {
 
             const seed = (productName || '').length;
             // LCG-style deterministic hash from the seed
@@ -626,14 +627,14 @@ function getProductRating(...args) {
         
 }
 
-function getShareableLink(...args) {
+function getShareableLink(page, params = {}) {
 
             const url = getUrlForPage(page, params);
             return `${BASE_URL}${url}`;
         
 }
 
-function getUrlForPage(...args) {
+function getUrlForPage(page, params = {}) {
 
             switch(page) {
                 case 'home':
@@ -669,7 +670,7 @@ function getUrlForPage(...args) {
         
 }
 
-function goToSlide(...args) {
+function goToSlide(index) {
 
             stopAutoSlide();
             currentSlideIndex = index;
@@ -678,7 +679,7 @@ function goToSlide(...args) {
         
 }
 
-function handleAccountClick(...args) {
+function handleAccountClick() {
 
             if (currentUser) {
         // User is logged in - go to account page
@@ -778,7 +779,7 @@ function initCarousel(...args) {
         
 }
 
-function liveColorUpdate(...args) {
+function liveColorUpdate(role, value) {
 
             document.getElementById('modColor' + role.charAt(0).toUpperCase() + role.slice(1) + 'Hex').value = val;
             if (role === 'primary') document.documentElement.style.setProperty('--primary', val);
@@ -788,7 +789,7 @@ function liveColorUpdate(...args) {
         
 }
 
-function liveUpdateHeroCta(...args) {
+function liveUpdateHeroCta(value) {
 
             const btn = document.querySelector('.hero-cta-btn');
             if (btn) btn.textContent = val;
@@ -812,7 +813,7 @@ function liveUpdateHeroTitle(...args) {
         
 }
 
-function loadAccountAddresses(...args) {
+function loadAccountAddresses() {
 
             // Placeholder â€” wire to /api/user/addresses
             const container = document.getElementById('accountAddressList');
@@ -1212,7 +1213,7 @@ async function loadAdminProducts(...args) {
         
 }
 
-async function loadAdminUsers(...args) {
+async function loadAdminUsers() {
 
             const tbody = document.getElementById('usersTableBody');
             if (!tbody) return;
@@ -1250,7 +1251,7 @@ async function loadAdminUsers(...args) {
         
 }
 
-async function loadAndShowProduct(...args) {
+async function loadAndShowProduct(productId) {
 
             try {
                 console.log('ðŸ“¦ Loading product from URL:', productId);
@@ -1296,7 +1297,7 @@ async function loadMaintenanceSettings(...args) {
         
 }
 
-function loadPageContent(...args) {
+function loadPageContent(page, params = {}) {
 
             switch(page) {
                 case 'home':
@@ -1372,7 +1373,7 @@ function loadPageContent(...args) {
         
 }
 
-async function loadProductVariants(...args) {
+async function loadProductVariants(productId) {
 
             currentProductIdForVariants = productId;
             const variantMgmt = document.getElementById('variantManagement');
@@ -1534,9 +1535,9 @@ function logoutModifier(...args) {
         
 }
 
-function navigateTo(...args) {
+function navigateTo(page, params = {}) {
 
-            console.log('ðŸ” Navigating to:', page, 'with params:', params);
+            console.log('🔍 Navigating to:', page, 'with params:', params);
         
             try {
                 const nav = document.getElementById('navbar');
@@ -1592,9 +1593,9 @@ function navigateTo(...args) {
         
 }
 
-function navigateWithoutPush(...args) {
+function navigateWithoutPush(page, params = {}) {
 
-            console.log('ðŸ”„ Navigating without push:', page, params);
+            console.log('🔄 Navigating without push:', page, params);
 
             const nav = document.getElementById('navbar');
             nav.classList.remove('on-hero');
@@ -1633,7 +1634,7 @@ function openModifierLogin(...args) {
         
 }
 
-function parseRoute(...args) {
+function parseRoute() {
 
             const path = window.location.pathname;
             const hash = window.location.hash.replace('#', '');
@@ -1734,7 +1735,7 @@ function previewLiveChanges(...args) {
         
 }
 
-function publishAllChanges(...args) {
+async function publishAllChanges() {
 
             const btn = document.getElementById('modifierPublishBtn');
             if (btn) { btn.textContent = 'PUBLISHING...'; btn.style.background = '#16a34a'; }
@@ -1879,7 +1880,7 @@ function saveModifierSection(...args) {
         
 }
 
-async function saveProduct(...args) {
+async function saveProduct() {
 
             // 1. Gather all basic fields
             const name = document.getElementById('productName').value.trim();
@@ -2084,7 +2085,7 @@ function setMarqueeSep(...args) {
         
 }
 
-function shareProduct(...args) {
+function shareProduct(productId, productName) {
 
             const shareUrl = getShareableLink('product', { id: productId });
             const shareText = `Check out ${productName} on ADRTA!`;
@@ -2190,7 +2191,7 @@ function showAddVariantForm(...args) {
         
 }
 
-function showAdminTab(...args) {
+function showAdminTab(tab) {
 
             console.log('ðŸ“Š Switching to admin tab:', tabName);
 
@@ -2235,7 +2236,7 @@ function showAdminTab(...args) {
         
 }
 
-function showModifierUnsaved(...args) {
+function showModifierUnsaved() {
 
             const badge = document.getElementById('modifierUnsavedBadge');
             if (badge) badge.style.display = 'block';
@@ -2382,7 +2383,7 @@ function stopAutoSlide(...args) {
         
 }
 
-function submitModifierLogin(...args) {
+async function submitModifierLogin() {
 
             const username = document.getElementById('modifierUsername')?.value?.trim();
             const password = document.getElementById('modifierPassword')?.value?.trim();
@@ -2417,7 +2418,7 @@ function submitModifierLogin(...args) {
         
 }
 
-function switchAccountTab(...args) {
+function switchAccountTab(tab, el) {
 
             // Hide all tabs
             document.querySelectorAll('.account-content-tab').forEach(t => t.style.display = 'none');
@@ -2579,7 +2580,7 @@ function updateMarqueeText(...args) {
         
 }
 
-async function updateOrderStatus(...args) {
+async function updateOrderStatus(orderId) {
 
             const orderStatus = document.getElementById('updateOrderStatus').value;
             const paymentStatus = document.getElementById('updatePaymentStatus').value;
@@ -2639,7 +2640,7 @@ async function updateProfile(...args) {
         
 }
 
-async function viewAdminOrderDetail(...args) {
+async function viewAdminOrderDetail(orderId) {
 
             try {
                 const res = await fetch(`${API_BASE}/admin/orders/${orderId}`);
@@ -2764,7 +2765,7 @@ async function viewAdminOrderDetail(...args) {
         
 }
 
-async function viewOrderDetail(...args) {
+async function viewOrderDetail(orderId) {
 
             try {
                 const res = await fetch(`${API_BASE}/orders/${orderId}`);
@@ -2863,12 +2864,12 @@ function cancelProductForm(...args) {
     cancelAddProduct(...args);
 }
 
-function hideVariantManagement(...args) {
+function hideVariantManagement() {
     const variantMgmt = document.getElementById('variantManagement');
     if (variantMgmt) variantMgmt.style.display = 'none';
 }
 
-function showForgotPassword(...args) {
+function showForgotPassword() {
     // Show forgot password modal or navigate to forgot password page
     const authModal = document.getElementById('authModal');
     if (authModal) {
